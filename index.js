@@ -21,18 +21,22 @@ const args = process.argv.slice(2);
 
 if (args.length === 0) {
   console.log(defaultText);
+  process.exit(0);
 }
 
 process.argv.slice(2).forEach(val => {
   switch (val) {
     case '--version':
       console.log(versionText);
+      process.exit(0);
       break;
     case '--help':
       console.log(helpText);
+      process.exit(0);
       break;
     default:
       console.error(createErrorText(val));
+      process.exit(1);
       break;
   }
 });
