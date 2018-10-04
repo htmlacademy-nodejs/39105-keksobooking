@@ -1,3 +1,5 @@
+'use strict';
+
 const Commands = {
   VERSION: `--version`,
   HELP: `--help`
