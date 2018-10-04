@@ -1,7 +1,12 @@
+const COMMANDS = Object.freeze({
+  VERSION: '--version',
+  HELP: '--help'
+});
+
 const HELP_TEXT = `
   Доступные команды:
---help    — печатает этот текст;
---version — печатает версию приложения;
+${COMMANDS.HELP} — печатает этот текст;
+${COMMANDS.VERSION} — печатает версию приложения;
 `;
 
 const VERSION = '0.01';
@@ -14,13 +19,8 @@ const DEFAULT_TEXT = `
 
 const createErrorText = (command) => `
 Неизвестная команда ${command}.
-Чтобы прочитать правила использования приложения, наберите "--help"
+Чтобы прочитать правила использования приложения, наберите "${COMMANDS.HELP}"
 `;
-
-const COMMANDS = Object.freeze({
-  VERSION: '--version',
-  HELP: '--help'
-});
 
 const command = process.argv.slice(2)[0];
 switch (command) {
