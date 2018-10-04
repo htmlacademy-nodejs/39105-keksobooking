@@ -29,8 +29,6 @@ module.exports = {
       return userCommand.execute();
     }
 
-    return userCommandName
-      ? commandError.execute(userCommandName)
-      : commandDefault.execute();
+    return commandError.execute(userCommandName);
   }
 };
