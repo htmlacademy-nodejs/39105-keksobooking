@@ -1,14 +1,13 @@
 'use strict';
-
 const CommandsNameList = require(`./../commands-name-list`).CommandsNameList;
 
 const COMMAND_TEXT = `
   Доступные команды:
-${CommandsNameList.HELP} — печатает этот текст;
-${CommandsNameList.VERSION} — печатает версию приложения;
-${CommandsNameList.LICENSE} — печатает лицензию приложения;
-${CommandsNameList.AUTHOR} — печатает автора приложения;
-${CommandsNameList.DESCRIPTION} — печатает описание приложения;
+${CommandsNameList.HELP.gray} — ${`печатает этот текст`.green};
+${CommandsNameList.VERSION.gray} — ${`печатает версию приложения`.green};
+${CommandsNameList.LICENSE.gray} — ${`печатает лицензию приложения`.green};
+${CommandsNameList.AUTHOR.gray} — ${`печатает автора приложения`.green};
+${CommandsNameList.DESCRIPTION.gray} — ${`печатает описание приложения`.green};
 `;
 
 module.exports = {
