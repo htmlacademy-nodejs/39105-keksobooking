@@ -4,7 +4,6 @@ const assert = require(`assert`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 
-const readFile = promisify(fs.readFile);
 const access = promisify(fs.access);
 const unlink = promisify(fs.unlink);
 
@@ -22,14 +21,8 @@ describe(`Module GenerateCommand`, () => {
 
   it(`should create a new file`, (done) => {
     generateCommand.execute(fileName)
-      .then(() => {
-        access(fileName);
-        done();
-      });
-  });
-
-  it(`file should be readable`, (done) => {
-    readFile(fileName, `utf8`).then(() => done());
+      .then(() => access(fileName))
+      .then(done);
   });
 
   it(`test file should be deleted`, (done) => {
