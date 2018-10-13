@@ -8,27 +8,7 @@ const {promisify} = require(`util`);
 
 const readFile = promisify(fs.readFile);
 const access = promisify(fs.access);
-// const unlink = promisify(fs.unlink);
-
-// "offer": {
-//   "title": строка, заголовок предложения, одно из фиксированных значений "Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде". Значения могут повторяться.
-//   "address": строка, адрес предложения, представляет собой запись вида "{{location.x}}, {{location.y}}"
-//   "price": число, случайная цена от 1000 до 1 000 000
-//   "type": строка с одним из четырёх фиксированных значений: flat, palace, house или bungalo
-//   "rooms": число, случайное количество комнат от 1 до 5
-//   "guests": число, случайное количество гостей, которое можно разместить
-//   "checkin": строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,
-//     "checkout": строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00
-//   "features": массив строк случайной длины из неповторяющихся элементов: "wifi", "dishwasher", "parking", "washer", "elevator", "conditioner",
-//     "description": пустая строка,
-//     "photos": массив из строк "http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg" и "http://o0.github.io/assets/images/tokyo/hotel3.jpg" расположенных в произвольном порядке
-// },
-//
-// "location": {
-//   "x": случайное число, координата x метки на карте от 300 до 900,
-//     "y": случайное число, координата y метки на карте от 150 до 500
-// },
-// "date": число, дата размещения, представляет собой timestamp в формате UNIX. Представляет собой случайное число в интервале от сейчас минус 7 дней
+const unlink = promisify(fs.unlink);
 
 describe(`Module generateCommand`, () => {
   it(`.execute should be a function`, () => {
@@ -36,7 +16,6 @@ describe(`Module generateCommand`, () => {
   });
 
   it(`should fail on non-existed folder`, (done) => {
-    // TODO WTF
     const fileName = `./nonExistedFolder/test-entity.json`;
     generateCommand.execute(fileName).then(assert.fail, () => done());
   });
@@ -66,13 +45,20 @@ describe(`Module generateCommand`, () => {
   it(`file should have offer.address field, template: {{location.x}}, {{location.y}}`, () => {
     const coords = fileData.offer.address.split(`,`);
     assert.strictEqual(coords.length, 2);
-    assert(!isNaN(Number.parseFloat(coords[0])));
-    assert(!isNaN(Number.parseFloat(coords[1])));
+
+    const x = coords[0];
+    const y = coords[1];
+    assert(!isNaN(Number.parseFloat(x)), `can't parse number from ${x}`);
+    assert(!isNaN(Number.parseFloat(y)), `can't parse number from ${y}`);
   });
 
-  it(`file should have offer.price field, value between 1000 and 1 000 000`, () => {
+  it(`file should have offer.price field`, () => {
     const {price} = fileData.offer;
-    assert(price >= 1000 && price <= 1000000, `wrong price value: ${price}`);
+    assert(
+        price >= propertyConstants.MIN_PRICE && price <= propertyConstants.MAX_PRICE,
+        `wrong price value: ${price}, 
+        it should be between ${propertyConstants.MIN_PRICE} and ${propertyConstants.MAX_PRICE}`
+    );
   });
 
   it(`file should have offer.type field, value must be one of propertyTypes`, () => {
@@ -80,9 +66,13 @@ describe(`Module generateCommand`, () => {
     assert(propertyTypes.includes(fileData.offer.type));
   });
 
-  it(`file should have offer.rooms field, value between 1 and 5`, () => {
+  it(`file should have offer.rooms field`, () => {
     const {rooms} = fileData.offer;
-    assert(rooms >= 1 && rooms <= 5, `wrong rooms value: ${rooms}`);
+    assert(
+        rooms >= propertyConstants.MIN_ROOMS_NUMBER && rooms <= propertyConstants.MAX_ROOMS_NUMBER,
+        `wrong rooms number: ${rooms},
+        it should be between ${propertyConstants.MIN_ROOMS_NUMBER} and ${propertyConstants.MAX_ROOMS_NUMBER}`
+    );
   });
 
   it(`file should have integer offer.guests field`, () => {
@@ -125,23 +115,23 @@ describe(`Module generateCommand`, () => {
     assert(photos.length > 0, `offer.photos must have some photos inside`);
     assert(
         photos.every((photo) => typeof photo === `string`),
-        `offer.photos must contain strings, but it contains: ${photos}`
+        `offer.photos must contain string array, but it contains: ${photos}`
     );
     assert(
         utils.getUniqueItems(photos).length === photos.length,
-        `offer.photos must contain unique items, but it contains: ${photos}`
+        `offer.photos array must contain unique items, but it contains: ${photos}`
     );
   });
 
   it(`file should contain .location field with x and y coords`, () => {
     const {x, y} = fileData.location;
     assert(
-        x >= 300 && x <= 900,
-        `x coord must be between 300 and 900, but it is ${x}`
+        x >= propertyConstants.MIN_COORD_X && x <= propertyConstants.MAX_COORD_X,
+        `x coord must be between ${propertyConstants.MIN_COORD_X} and ${propertyConstants.MAX_COORD_X}, but it is ${x}`
     );
     assert(
-        y >= 150 && y <= 500,
-        `y coord must be between 150 and 500, but it is ${y}`
+        y >= propertyConstants.MIN_COORD_Y && y <= propertyConstants.MAX_COORD_Y,
+        `y coord must be between ${propertyConstants.MIN_COORD_Y} and ${propertyConstants.MAX_COORD_Y}, but it is ${y}`
     );
   });
 
@@ -157,5 +147,9 @@ describe(`Module generateCommand`, () => {
         `date must be not older than ${propertyConstants.MAX_DATE_OFFSET_IN_DAYS} days, 
         but it is: ${date}`
     );
+  });
+
+  it(`test file should be deleted`, (done) => {
+    unlink(fileName).then(done);
   });
 });

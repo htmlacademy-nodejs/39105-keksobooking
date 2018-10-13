@@ -41,11 +41,30 @@ const propertyPhotos = [
 
 const MAX_DATE_OFFSET_IN_DAYS = 7;
 
+const MIN_PRICE = 1000;
+const MAX_PRICE = 1000000;
+
+const MIN_COORD_X = 300;
+const MAX_COORD_X = 900;
+const MIN_COORD_Y = 150;
+const MAX_COORD_Y = 500;
+
+const MIN_ROOMS_NUMBER = 1;
+const MAX_ROOMS_NUMBER = 5;
+
 module.exports = {
   PropertyTitles,
   PropertyTypes,
   CheckTimeVariants,
   PropertyFeatures,
   propertyPhotos,
-  MAX_DATE_OFFSET_IN_DAYS
+  MAX_DATE_OFFSET_IN_DAYS,
+  MIN_COORD_X,
+  MAX_COORD_X,
+  MIN_COORD_Y,
+  MAX_COORD_Y,
+  MIN_PRICE,
+  MAX_PRICE,
+  MIN_ROOMS_NUMBER,
+  MAX_ROOMS_NUMBER,
 };
