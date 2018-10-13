@@ -1,7 +1,7 @@
 'use strict';
-const generateCommand = require(`../src/commands/user-commands/command-generate-entity`);
-const propertyConstants = require(`../src/property-constants`);
-const utils = require(`../src/utils`);
+const generateCommand = require(`./../src/commands/user-commands/command-generate-entity`);
+const propertyConstants = require(`./../src/property-constants`);
+const utils = require(`./../src/utils`);
 const assert = require(`assert`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
