@@ -1,6 +1,6 @@
 'use strict';
 
-const packageInfo = require(`./../../package.json`);
+const packageInfo = require(`./../../../package.json`);
 const CommandsNameList = require(`./../commands-name-list`).CommandsNameList;
 
 let [major, minor, patch] = packageInfo.version.split(`.`);

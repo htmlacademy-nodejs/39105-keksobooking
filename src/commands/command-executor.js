@@ -8,17 +8,19 @@ const commandVersion = require(`./user-commands/command-version`);
 const commandDescription = require(`./user-commands/command-description`);
 const commandLicense = require(`./user-commands/command-license`);
 const commandAuthor = require(`./user-commands/command-author`);
+const commandGenerateEntity = require(`./user-commands/command-generate-entity`);
 
 const namedCommandList = [
   commandHelp,
   commandVersion,
   commandDescription,
   commandLicense,
-  commandAuthor
+  commandAuthor,
+  commandGenerateEntity
 ];
 
 module.exports = {
-  executeCommand(userCommandName) {
+  executeCommand(userCommandName, params) {
     if (!userCommandName) {
       return commandDefault.execute();
     }
@@ -26,7 +28,7 @@ module.exports = {
     const userCommand = namedCommandList.find((existingCommand) => existingCommand.name === userCommandName);
 
     if (userCommand) {
-      return userCommand.execute();
+      return userCommand.execute(...params);
     }
 
     return commandError.execute(userCommandName);
