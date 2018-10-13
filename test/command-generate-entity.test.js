@@ -20,7 +20,7 @@ describe(`Module generateCommand`, () => {
     generateCommand.execute(fileName).then(assert.fail, () => done());
   });
 
-  const fileName = `./entities/test-entity.json`;
+  const fileName = `./test-entity.json`;
   let fileData;
 
   it(`should create a new file`, () => {

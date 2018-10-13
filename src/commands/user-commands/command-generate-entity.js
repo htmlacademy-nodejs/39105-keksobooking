@@ -61,7 +61,7 @@ function generateData() {
 module.exports = {
   name: CommandsNameList.GENERATE_ENTITY,
 
-  execute(fileName = `./entities/entity.json`) {
+  execute(fileName = `./entity.json`) {
     return new Promise((resolve, reject) => {
       fs.writeFile(
           fileName,
