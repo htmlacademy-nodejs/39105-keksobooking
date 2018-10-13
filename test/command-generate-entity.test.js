@@ -28,13 +28,16 @@ describe(`Module generateCommand`, () => {
       .then(() => access(fileName));
   });
 
-  it(`file should have string author.avatar field`, (done) => {
+  it(`file should be readable`, (done) => {
     readFile(fileName, `utf8`)
       .then((data) => {
         fileData = JSON.parse(data);
-        assert.strictEqual(typeof fileData.author.avatar, `string`);
         done();
       });
+  });
+
+  it(`file should have string author.avatar field`, () => {
+    assert.strictEqual(typeof fileData.author.avatar, `string`);
   });
 
   it(`file should have offer.title field, value must be one of propertyTitles`, () => {
