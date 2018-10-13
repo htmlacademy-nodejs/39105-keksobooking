@@ -23,8 +23,8 @@ function generatePhotos() {
 
 function generateCoords() {
   return {
-    x: utils.getRandomIntInRange(300, 900),
-    y: utils.getRandomIntInRange(150, 500)
+    x: utils.getRandomIntInRange(propertyConstants.MIN_COORD_X, propertyConstants.MAX_COORD_X),
+    y: utils.getRandomIntInRange(propertyConstants.MIN_COORD_Y, propertyConstants.MAX_COORD_Y)
   };
 }
 
@@ -42,9 +42,9 @@ module.exports = {
       offer: {
         title: utils.getRandomMapItem(propertyConstants.PropertyTitles),
         address: `${Math.random() * 100}, ${Math.random() * 100}`,
-        price: utils.getRandomIntInRange(1000, 1000000),
+        price: utils.getRandomIntInRange(propertyConstants.MIN_PRICE, propertyConstants.MAX_PRICE),
         type: utils.getRandomMapItem(propertyConstants.PropertyTypes),
-        rooms: utils.getRandomIntInRange(1, 5),
+        rooms: utils.getRandomIntInRange(propertyConstants.MIN_ROOMS_NUMBER, propertyConstants.MAX_ROOMS_NUMBER),
         guests: utils.getRandomIntInRange(1, 20),
         checkin: utils.getRandomMapItem(propertyConstants.CheckTimeVariants),
         checkout: utils.getRandomMapItem(propertyConstants.CheckTimeVariants),
