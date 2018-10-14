@@ -5,32 +5,39 @@ const utils = require(`./../src/utils`);
 const assert = require(`assert`);
 
 describe(`Module GenerateEntity`, () => {
-  it(`module should be a function`, () => {
+  it(`should be a function`, () => {
     assert.strictEqual(typeof generateEntity, `function`);
   });
 
-  const data = generateEntity();
+  let data;
 
-  it(`entity should have string author.avatar field`, () => {
+  beforeEach(() => {
+    data = generateEntity();
+  });
+
+  afterEach(() => {
+    data = null;
+  });
+
+  it(`should have string author.avatar field`, () => {
     assert.strictEqual(typeof data.author.avatar, `string`);
   });
 
-  it(`entity should have offer.title field, value must be one of propertyTitles`, () => {
+  it(`should have offer.title field, value must be one of propertyTitles`, () => {
     const propertyTitles = utils.mapToArray(propertyConstants.PropertyTitles);
     assert(propertyTitles.includes(data.offer.title));
   });
 
-  it(`entity should have offer.address field, template: {{location.x}}, {{location.y}}`, () => {
+  it(`should have offer.address field, template: {{location.x}}, {{location.y}}`, () => {
     const coords = data.offer.address.split(`,`);
     assert.strictEqual(coords.length, 2);
 
-    const x = coords[0];
-    const y = coords[1];
+    const [x, y] = coords;
     assert(!isNaN(Number.parseFloat(x)), `can't parse number from ${x}`);
     assert(!isNaN(Number.parseFloat(y)), `can't parse number from ${y}`);
   });
 
-  it(`entity should have offer.price field`, () => {
+  it(`should have offer.price field`, () => {
     const {price} = data.offer;
     assert(
         price >= propertyConstants.MIN_PRICE && price <= propertyConstants.MAX_PRICE,
@@ -39,12 +46,12 @@ describe(`Module GenerateEntity`, () => {
     );
   });
 
-  it(`entity should have offer.type field, value must be one of propertyTypes`, () => {
+  it(`should have offer.type field, value must be one of propertyTypes`, () => {
     const propertyTypes = utils.mapToArray(propertyConstants.PropertyTypes);
     assert(propertyTypes.includes(data.offer.type));
   });
 
-  it(`entity should have offer.rooms field`, () => {
+  it(`should have offer.rooms field`, () => {
     const {rooms} = data.offer;
     assert(
         rooms >= propertyConstants.MIN_ROOMS_NUMBER && rooms <= propertyConstants.MAX_ROOMS_NUMBER,
@@ -53,22 +60,22 @@ describe(`Module GenerateEntity`, () => {
     );
   });
 
-  it(`entity should have integer offer.guests field`, () => {
+  it(`should have integer offer.guests field`, () => {
     const {guests} = data.offer;
     assert(Number.isInteger(guests), `wrong guests value: ${guests}`);
   });
 
-  it(`entity should have offer.checkin field, value must be one of CheckTypeVariants`, () => {
+  it(`should have offer.checkin field, value must be one of CheckTypeVariants`, () => {
     const checkTimeVariants = utils.mapToArray(propertyConstants.CheckTimeVariants);
     assert(checkTimeVariants.includes(data.offer.checkin));
   });
 
-  it(`entity should have offer.checkout field, value must be one of CheckTypeVariants`, () => {
+  it(`should have offer.checkout field, value must be one of CheckTypeVariants`, () => {
     const checkTimeVariants = utils.mapToArray(propertyConstants.CheckTimeVariants);
     assert(checkTimeVariants.includes(data.offer.checkout));
   });
 
-  it(`entity should have offer.features field, contains some of PropertyFeatures values`, () => {
+  it(`should have offer.features field, contains some of PropertyFeatures values`, () => {
     const {features} = data.offer;
     const availableFeatures = utils.mapToArray(propertyConstants.PropertyFeatures);
     assert(
@@ -81,12 +88,12 @@ describe(`Module GenerateEntity`, () => {
     );
   });
 
-  it(`entity should have blank offer.description field`, () => {
+  it(`should have blank offer.description field`, () => {
     const {description} = data.offer;
     assert(description.length === 0, `description must be blank string, but it contains: ${description}`);
   });
 
-  it(`entity should have offer.photos field with unique string array inside`, () => {
+  it(`should have offer.photos field with unique string array inside`, () => {
     const {photos} = data.offer;
 
     assert(Array.isArray(photos), `offer.photos must be an array`);
@@ -101,7 +108,7 @@ describe(`Module GenerateEntity`, () => {
     );
   });
 
-  it(`entity should contain .location field with x and y coords`, () => {
+  it(`should contain .location field with x and y coords`, () => {
     const {x, y} = data.location;
     assert(
         x >= propertyConstants.MIN_COORD_X && x <= propertyConstants.MAX_COORD_X,
@@ -113,7 +120,7 @@ describe(`Module GenerateEntity`, () => {
     );
   });
 
-  it(`entity should contain .date field`, () => {
+  it(`should contain .date field`, () => {
     let {date} = data;
 
     assert.strictEqual(typeof date, `number`, `date must be a number, but it is ${typeof date}`);

@@ -4,28 +4,34 @@ const assert = require(`assert`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 
-const access = promisify(fs.access);
+const readFile = promisify(fs.readFile);
 const unlink = promisify(fs.unlink);
 
 describe(`Module GenerateCommand`, () => {
-  it(`.execute should be a function`, () => {
+  const ENTITIES_NUMBER = 10;
+  const FILE_NAME = `./test-entity.json`;
+
+  it(`should be a function`, () => {
     assert.strictEqual(typeof generateCommand.execute, `function`);
   });
 
   it(`should fail on non-existed folder`, (done) => {
     const fileName = `./nonExistedFolder/test-entity.json`;
-    generateCommand.execute(fileName).then(assert.fail, () => done());
+    generateCommand.execute(ENTITIES_NUMBER, fileName).then(() => done(new Error()), () => done());
   });
 
-  const fileName = `./test-entity.json`;
-
-  it(`should create a new file`, (done) => {
-    generateCommand.execute(fileName)
-      .then(() => access(fileName))
-      .then(done);
+  it(`should create a file with exact number of entities`, (done) => {
+    generateCommand.execute(ENTITIES_NUMBER, FILE_NAME)
+      .then(() => readFile(FILE_NAME))
+      .then((data) => {
+        const fileData = JSON.parse(data);
+        assert(fileData.length === ENTITIES_NUMBER);
+        done();
+      })
+      .catch((e) => done(e));
   });
 
-  it(`test file should be deleted`, (done) => {
-    unlink(fileName).then(() => done());
+  after(() => {
+    unlink(FILE_NAME);
   });
 });
