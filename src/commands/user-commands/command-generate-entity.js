@@ -6,15 +6,14 @@ const CommandsNameList = require(`./../commands-name-list`).CommandsNameList;
 const promptQuestion = require(`./../../prompt-question`).promptQuestion;
 const {promisify} = require(`util`);
 const access = promisify(fs.access);
+const writeFile = promisify(fs.writeFile);
 
 function createFileWithEntities(number, path) {
   const entities = Array.from({length: number}, () => generateEntity());
-  return new Promise((resolve, reject) => {
-    fs.writeFile(
-        path,
-        JSON.stringify(entities),
-        (err) => err ? reject(err) : resolve());
-  }).then(
+  return writeFile(
+      path,
+      JSON.stringify(entities)
+  ).then(
       () => console.log(`\nГотово!\n`),
       (e) => {
         console.log(`\nУпс! Что-то пошло не так: ${e}\n`);

@@ -10,31 +10,28 @@ const unlink = promisify(fs.unlink);
 describe(`Module GenerateCommand`, () => {
   const ENTITIES_NUMBER = 10;
   const FILE_NAME = `./test-entity.json`;
-  let fileData;
 
-  it(`.execute should be a function`, () => {
+  it(`should be a function`, () => {
     assert.strictEqual(typeof generateCommand.execute, `function`);
   });
 
   it(`should fail on non-existed folder`, (done) => {
     const fileName = `./nonExistedFolder/test-entity.json`;
-    generateCommand.execute(ENTITIES_NUMBER, fileName).then(assert.fail, () => done());
+    generateCommand.execute(ENTITIES_NUMBER, fileName).then(() => done(new Error()), () => done());
   });
 
-  it(`should create a new readable file`, (done) => {
+  it(`should create a file with exact number of entities`, (done) => {
     generateCommand.execute(ENTITIES_NUMBER, FILE_NAME)
       .then(() => readFile(FILE_NAME))
       .then((data) => {
-        fileData = JSON.parse(data);
+        const fileData = JSON.parse(data);
+        assert(fileData.length === ENTITIES_NUMBER);
+        done();
       })
-      .then(() => done());
+      .catch((e) => done(e));
   });
 
-  it(`file should contain exact number of entities`, () => {
-    assert(fileData.length === ENTITIES_NUMBER);
-  });
-
-  it(`test file should be deleted`, (done) => {
-    unlink(FILE_NAME).then(() => done());
+  after(() => {
+    unlink(FILE_NAME);
   });
 });
