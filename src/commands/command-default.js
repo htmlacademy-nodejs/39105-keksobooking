@@ -1,6 +1,6 @@
 'use strict';
 
-const packageInfo = require(`./../package.json`);
+const packageInfo = require(`./../../package.json`);
 
 const COMMAND_TEXT = `
 Привет пользователь!
