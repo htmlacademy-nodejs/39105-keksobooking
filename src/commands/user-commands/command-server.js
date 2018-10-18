@@ -4,17 +4,16 @@ const serveFile = require(`../../serve-static-file`).serveFile;
 const CommandsNameList = require(`./../commands-name-list`).CommandsNameList;
 
 const hostname = `127.0.0.1`;
-const port = 3000;
 
 module.exports = {
   name: CommandsNameList.SERVER,
-  execute() {
+  execute(port) {
     const server = http.createServer((req, res) => {
       serveFile(req.url, res);
     });
 
     server.listen(port, hostname, () => {
-      console.log(`Server running at http://${hostname}:${port}/`);
+      console.log(`Server running at http://${hostname}:${port || `3000`}/`);
     });
   }
 };
