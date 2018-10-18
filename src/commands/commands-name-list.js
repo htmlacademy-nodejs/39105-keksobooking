@@ -6,5 +6,6 @@ module.exports.CommandsNameList = {
   AUTHOR: `--author`,
   DESCRIPTION: `--description`,
   LICENSE: `--license`,
-  GENERATE_ENTITY: `--generate-entity`
+  GENERATE_ENTITY: `--generate-entity`,
+  SERVER: `--server`
 };

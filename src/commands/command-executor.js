@@ -9,6 +9,7 @@ const commandDescription = require(`./user-commands/command-description`);
 const commandLicense = require(`./user-commands/command-license`);
 const commandAuthor = require(`./user-commands/command-author`);
 const commandGenerateEntity = require(`./user-commands/command-generate-entity`);
+const commandServer = require(`./user-commands/command-server`);
 
 const namedCommandList = [
   commandHelp,
@@ -16,7 +17,8 @@ const namedCommandList = [
   commandDescription,
   commandLicense,
   commandAuthor,
-  commandGenerateEntity
+  commandGenerateEntity,
+  commandServer
 ];
 
 module.exports = {
