@@ -56,9 +56,9 @@ module.exports = {
     }
 
     try {
-      const dirent = await lstat(absoluteUrl);
+      const fileInfo = await lstat(absoluteUrl);
 
-      if (dirent.isDirectory()) {
+      if (fileInfo.isDirectory()) {
         await readStaticDir(absoluteUrl, res);
       } else {
         await readStaticFile(absoluteUrl, res);
