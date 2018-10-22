@@ -9,6 +9,7 @@ ${CommandsNameList.LICENSE.gray} — ${`печатает лицензию при
 ${CommandsNameList.AUTHOR.gray} — ${`печатает автора приложения`.green};
 ${CommandsNameList.DESCRIPTION.gray} — ${`печатает описание приложения`.green};
 ${CommandsNameList.GENERATE_ENTITY.gray} — ${`генерирует сущность`.green};
+${CommandsNameList.SERVER.gray} — ${`запускает сервер`.green};
 `;
 
 module.exports = {
